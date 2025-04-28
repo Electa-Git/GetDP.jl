@@ -33,7 +33,7 @@ using GetDP
 - `PostOperation`: Defining post-operations.
 - `Problem`: The main problem definition class that brings together all the components.
 
-The [`examples`](examples) directory contains files illustrating basic usage.
+The [examples](examples) directory contains files illustrating basic usage.
 
 ## License
 
@@ -41,7 +41,7 @@ The source code is provided under the [BSD 3-Clause License](LICENSE).
 
 ## Acknowledgements
 
-This work is supported by the Etch Competence Hub of EnergyVille, financed by the Flemish Government. The primary developer is Amauri Martins ([@amaurigmartins](https://github.com/amaurigmartins)). This package is inspired by the [`pygetdp`](https://gitlab.com/benvial/pygetdp) project.
+This work is supported by the Etch Competence Hub of EnergyVille, financed by the Flemish Government. The primary developer is Amauri Martins ([@amaurigmartins](https://github.com/amaurigmartins)). This package is inspired by the [pygetdp](https://gitlab.com/benvial/pygetdp) project.
 
 <p align = "left">
   <p><br><img src="assets/img/ETCH_LOGO_RGB_NEG.svg" width="150" alt="Etch logo"></p>
