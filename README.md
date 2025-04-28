@@ -1,7 +1,9 @@
 # GetDP.jl
 
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://electa-git.github.io/GetDP.jl/dev/)
 [![Build Status](https://github.com/Electa-Git/GetDP.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/Electa-Git/GetDP.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![codecov](https://codecov.io/gh/Electa-Git/GetDP.jl/graph/badge.svg?token=YA4PV3EXOX)](https://codecov.io/gh/Electa-Git/GetDP.jl)
 
 This package provides a Julia interface to [GetDP](http://getdp.info/), for finite element analysis.
 
