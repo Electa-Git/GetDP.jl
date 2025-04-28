@@ -1,14 +1,8 @@
-```@meta
-CurrentModule = GetDP
-```
-
-# GetDP
-
-Documentation for [GetDP](https://github.com/Electa-Git/GetDP.jl).
-
-```@index
-```
+# GetDP API reference
 
 ```@autodocs
 Modules = [GetDP]
+Order = [:module, :constant, :type, :function, :macro]
+Public = true
+Private = false
 ```

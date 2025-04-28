@@ -1,0 +1,44 @@
+
+FunctionSpace {
+  { Name Hcurl_a_Mag_2D; Type Form1P;
+    BasisFunction {
+      { Name se; NameOfCoef ae; Function BF_PerpendicularEdge; Support Domain_Mag; Entity NodesOf[ All ]; }
+    If (Flag_Degree_a == 2)
+      { Name se2; NameOfCoef ae2; Function BF_PerpendicularEdge_2E; Support Domain_Mag; Entity EdgesOf[ All ]; }
+    EndIf
+    }
+    Constraint {
+      { NameOfCoef ae; EntityType NodesOf; NameOfConstraint MagneticVectorPotential_2D;}
+    If (Flag_Degree_a == 2)
+      //  Only OK if homogeneous BC, otherwise specify zero-BC
+      { NameOfCoef ae2; EntityType EdgesOf; NameOfConstraint MagneticVectorPotential_2D;}
+    EndIf
+    }
+  }
+  { Name Hregion_i_2D; Type Vector;
+    BasisFunction {
+      { Name sr; NameOfCoef ir; Function BF_RegionZ; Support DomainS_Mag; Entity DomainS_Mag; }
+    }
+    GlobalQuantity {
+      { Name Is; Type AliasOf; NameOfCoef ir;}
+      { Name Us; Type AssociatedWith; NameOfCoef ir;}
+    }
+    Constraint {
+      { NameOfCoef Us; EntityType Region; NameOfConstraint Voltage_2D;}
+      { NameOfCoef Is; EntityType Region; NameOfConstraint Current_2D;}
+    }
+  }
+  { Name Hregion_u_Mag_2D; Type Form1P; //  Gradient of Electric scalar potential (2D)
+    BasisFunction {
+      { Name sr; NameOfCoef ur; Function BF_RegionZ; Support DomainC_Mag; Entity DomainC_Mag; }
+    }
+    GlobalQuantity {
+      { Name U; Type AliasOf; NameOfCoef ur;}
+      { Name I; Type AssociatedWith; NameOfCoef ur;}
+    }
+    Constraint {
+      { NameOfCoef U; EntityType Region; NameOfConstraint Voltage_2D;}
+      { NameOfCoef I; EntityType Region; NameOfConstraint Current_2D;}
+    }
+  }
+}

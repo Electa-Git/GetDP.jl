@@ -1,0 +1,40 @@
+
+Constraint{
+  // Electrical constraints
+  { Name ElectricScalarPotential; Type Assign;
+    Case {
+      { Region Ind_1; Value V0; TimeFunction F_Cos_wt_p[]{2*Pi*Freq, Pa}; }
+      { Region Ind_2; Value V0; TimeFunction F_Cos_wt_p[]{2*Pi*Freq, Pb}; }
+      { Region Ind_3; Value V0; TimeFunction F_Cos_wt_p[]{2*Pi*Freq, Pc}; }
+      { Region Sur_Dirichlet_Ele; Value 0; }
+    }
+  }
+  // Only if second order basis functions
+  { Name ZeroElectricScalarPotential; Type Assign;
+    Case {
+      For k In {1:3}
+        { Region Ind~{k}; Value 0; }
+        { Region Sur_Dirichlet_Ele; Value 0; }
+      EndFor
+    }
+  }
+  // Magnetic constraints
+  { Name MagneticVectorPotential_2D; Type Assign;
+    Case {
+      { Region Sur_Dirichlet_Mag; Value 0.; }
+    }
+  }
+  { Name Voltage_2D; Type Assign;
+    Case {
+      // UNUSED
+    }
+  }
+  // constraint used if Inds in DomainS_Mag example for a three-phase cable
+  { Name Current_2D; Type Assign;
+    Case {
+      { Region Ind_1; Value I; TimeFunction F_Cos_wt_p[]{2*Pi*Freq, Pa}; }
+      { Region Ind_2; Value I; TimeFunction F_Cos_wt_p[]{2*Pi*Freq, Pb}; }
+      { Region Ind_3; Value I; TimeFunction F_Cos_wt_p[]{2*Pi*Freq, Pc}; }
+    }
+  }
+}

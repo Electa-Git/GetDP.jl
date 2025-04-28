@@ -1,3 +1,6 @@
 [deps]
+Changelog = "5217a498-cd5d-4ec6-b8c2-9b85a09b6e3e"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 GetDP = "dbfd83e6-7aba-450b-9c2b-93ccd973023a"
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"

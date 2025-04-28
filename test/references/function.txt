@@ -1,0 +1,160 @@
+
+Function{
+  mu0[] = 4.e-7 * Pi;
+  eps0[] = 8.854187818e-12;
+
+  nu[Region[{Air}]] = 1./mu0;
+  nu[Region[{Soil_Layer1}]] = 1./(mu0*soil_mu1);
+  sigma[Region[{Air}]] = 0.;
+  sigma[Region[{Soil_Layer1}]] = soil_sigma1;
+  epsilon[Region[{Air}]] = eps0;
+  epsilon[Region[{Soil_Layer1}]] = eps0*soil_eps1;
+  nu[Region[{AirInCable}]] = 1./mu0;
+  sigma[Region[{AirInCable}]] = 0.;
+  epsilon[Region[{AirInCable}]] = eps0;
+
+  nu[Region[{Cond1_core_wirearray15}]] = 1. / (mu0 * Cond1_core_wirearray15_mu_r);
+  sigma[Region[{Cond1_core_wirearray15}]] = 1. / Cond1_core_wirearray15_rho;
+  epsilon[Region[{Cond1_core_wirearray15}]] = Cond1_core_wirearray15_eps_r * eps0;
+
+  nu[Region[{Cond1_core_semicon2}]] = 1. / (mu0 * Cond1_core_semicon2_mu_r);
+  sigma[Region[{Cond1_core_semicon2}]] = 1. / Cond1_core_semicon2_rho;
+  epsilon[Region[{Cond1_core_semicon2}]] = Cond1_core_semicon2_eps_r * eps0;
+
+  nu[Region[{Cond1_core_insulator3}]] = 1. / (mu0 * Cond1_core_insulator3_mu_r);
+  sigma[Region[{Cond1_core_insulator3}]] = 1. / Cond1_core_insulator3_rho;
+  epsilon[Region[{Cond1_core_insulator3}]] = Cond1_core_insulator3_eps_r * eps0;
+
+  nu[Region[{Cond1_core_semicon4}]] = 1. / (mu0 * Cond1_core_semicon4_mu_r);
+  sigma[Region[{Cond1_core_semicon4}]] = 1. / Cond1_core_semicon4_rho;
+  epsilon[Region[{Cond1_core_semicon4}]] = Cond1_core_semicon4_eps_r * eps0;
+
+  nu[Region[{Cond1_core_semicon5}]] = 1. / (mu0 * Cond1_core_semicon5_mu_r);
+  sigma[Region[{Cond1_core_semicon5}]] = 1. / Cond1_core_semicon5_rho;
+  epsilon[Region[{Cond1_core_semicon5}]] = Cond1_core_semicon5_eps_r * eps0;
+
+  nu[Region[{Cond1_sheath_wirearray11}]] = 1. / (mu0 * Cond1_sheath_wirearray11_mu_r);
+  sigma[Region[{Cond1_sheath_wirearray11}]] = 1. / Cond1_sheath_wirearray11_rho;
+  epsilon[Region[{Cond1_sheath_wirearray11}]] = Cond1_sheath_wirearray11_eps_r * eps0;
+
+  nu[Region[{Cond1_sheath_strip12}]] = 1. / (mu0 * Cond1_sheath_strip12_mu_r);
+  sigma[Region[{Cond1_sheath_strip12}]] = 1. / Cond1_sheath_strip12_rho;
+  epsilon[Region[{Cond1_sheath_strip12}]] = Cond1_sheath_strip12_eps_r * eps0;
+
+  nu[Region[{Cond1_sheath_semicon2}]] = 1. / (mu0 * Cond1_sheath_semicon2_mu_r);
+  sigma[Region[{Cond1_sheath_semicon2}]] = 1. / Cond1_sheath_semicon2_rho;
+  epsilon[Region[{Cond1_sheath_semicon2}]] = Cond1_sheath_semicon2_eps_r * eps0;
+
+  nu[Region[{Cond1_jacket_tubular11}]] = 1. / (mu0 * Cond1_jacket_tubular11_mu_r);
+  sigma[Region[{Cond1_jacket_tubular11}]] = 1. / Cond1_jacket_tubular11_rho;
+  epsilon[Region[{Cond1_jacket_tubular11}]] = Cond1_jacket_tubular11_eps_r * eps0;
+
+  nu[Region[{Cond1_jacket_insulator2}]] = 1. / (mu0 * Cond1_jacket_insulator2_mu_r);
+  sigma[Region[{Cond1_jacket_insulator2}]] = 1. / Cond1_jacket_insulator2_rho;
+  epsilon[Region[{Cond1_jacket_insulator2}]] = Cond1_jacket_insulator2_eps_r * eps0;
+
+  nu[Region[{Cond1_jacket_insulator3}]] = 1. / (mu0 * Cond1_jacket_insulator3_mu_r);
+  sigma[Region[{Cond1_jacket_insulator3}]] = 1. / Cond1_jacket_insulator3_rho;
+  epsilon[Region[{Cond1_jacket_insulator3}]] = Cond1_jacket_insulator3_eps_r * eps0;
+
+  nu[Region[{Cond2_core_wirearray15}]] = 1. / (mu0 * Cond2_core_wirearray15_mu_r);
+  sigma[Region[{Cond2_core_wirearray15}]] = 1. / Cond2_core_wirearray15_rho;
+  epsilon[Region[{Cond2_core_wirearray15}]] = Cond2_core_wirearray15_eps_r * eps0;
+
+  nu[Region[{Cond2_core_semicon2}]] = 1. / (mu0 * Cond2_core_semicon2_mu_r);
+  sigma[Region[{Cond2_core_semicon2}]] = 1. / Cond2_core_semicon2_rho;
+  epsilon[Region[{Cond2_core_semicon2}]] = Cond2_core_semicon2_eps_r * eps0;
+
+  nu[Region[{Cond2_core_insulator3}]] = 1. / (mu0 * Cond2_core_insulator3_mu_r);
+  sigma[Region[{Cond2_core_insulator3}]] = 1. / Cond2_core_insulator3_rho;
+  epsilon[Region[{Cond2_core_insulator3}]] = Cond2_core_insulator3_eps_r * eps0;
+
+  nu[Region[{Cond2_core_semicon4}]] = 1. / (mu0 * Cond2_core_semicon4_mu_r);
+  sigma[Region[{Cond2_core_semicon4}]] = 1. / Cond2_core_semicon4_rho;
+  epsilon[Region[{Cond2_core_semicon4}]] = Cond2_core_semicon4_eps_r * eps0;
+
+  nu[Region[{Cond2_core_semicon5}]] = 1. / (mu0 * Cond2_core_semicon5_mu_r);
+  sigma[Region[{Cond2_core_semicon5}]] = 1. / Cond2_core_semicon5_rho;
+  epsilon[Region[{Cond2_core_semicon5}]] = Cond2_core_semicon5_eps_r * eps0;
+
+  nu[Region[{Cond2_sheath_wirearray11}]] = 1. / (mu0 * Cond2_sheath_wirearray11_mu_r);
+  sigma[Region[{Cond2_sheath_wirearray11}]] = 1. / Cond2_sheath_wirearray11_rho;
+  epsilon[Region[{Cond2_sheath_wirearray11}]] = Cond2_sheath_wirearray11_eps_r * eps0;
+
+  nu[Region[{Cond2_sheath_strip12}]] = 1. / (mu0 * Cond2_sheath_strip12_mu_r);
+  sigma[Region[{Cond2_sheath_strip12}]] = 1. / Cond2_sheath_strip12_rho;
+  epsilon[Region[{Cond2_sheath_strip12}]] = Cond2_sheath_strip12_eps_r * eps0;
+
+  nu[Region[{Cond2_sheath_semicon2}]] = 1. / (mu0 * Cond2_sheath_semicon2_mu_r);
+  sigma[Region[{Cond2_sheath_semicon2}]] = 1. / Cond2_sheath_semicon2_rho;
+  epsilon[Region[{Cond2_sheath_semicon2}]] = Cond2_sheath_semicon2_eps_r * eps0;
+
+  nu[Region[{Cond2_jacket_tubular11}]] = 1. / (mu0 * Cond2_jacket_tubular11_mu_r);
+  sigma[Region[{Cond2_jacket_tubular11}]] = 1. / Cond2_jacket_tubular11_rho;
+  epsilon[Region[{Cond2_jacket_tubular11}]] = Cond2_jacket_tubular11_eps_r * eps0;
+
+  nu[Region[{Cond2_jacket_insulator2}]] = 1. / (mu0 * Cond2_jacket_insulator2_mu_r);
+  sigma[Region[{Cond2_jacket_insulator2}]] = 1. / Cond2_jacket_insulator2_rho;
+  epsilon[Region[{Cond2_jacket_insulator2}]] = Cond2_jacket_insulator2_eps_r * eps0;
+
+  nu[Region[{Cond2_jacket_insulator3}]] = 1. / (mu0 * Cond2_jacket_insulator3_mu_r);
+  sigma[Region[{Cond2_jacket_insulator3}]] = 1. / Cond2_jacket_insulator3_rho;
+  epsilon[Region[{Cond2_jacket_insulator3}]] = Cond2_jacket_insulator3_eps_r * eps0;
+
+  nu[Region[{Cond3_core_wirearray15}]] = 1. / (mu0 * Cond3_core_wirearray15_mu_r);
+  sigma[Region[{Cond3_core_wirearray15}]] = 1. / Cond3_core_wirearray15_rho;
+  epsilon[Region[{Cond3_core_wirearray15}]] = Cond3_core_wirearray15_eps_r * eps0;
+
+  nu[Region[{Cond3_core_semicon2}]] = 1. / (mu0 * Cond3_core_semicon2_mu_r);
+  sigma[Region[{Cond3_core_semicon2}]] = 1. / Cond3_core_semicon2_rho;
+  epsilon[Region[{Cond3_core_semicon2}]] = Cond3_core_semicon2_eps_r * eps0;
+
+  nu[Region[{Cond3_core_insulator3}]] = 1. / (mu0 * Cond3_core_insulator3_mu_r);
+  sigma[Region[{Cond3_core_insulator3}]] = 1. / Cond3_core_insulator3_rho;
+  epsilon[Region[{Cond3_core_insulator3}]] = Cond3_core_insulator3_eps_r * eps0;
+
+  nu[Region[{Cond3_core_semicon4}]] = 1. / (mu0 * Cond3_core_semicon4_mu_r);
+  sigma[Region[{Cond3_core_semicon4}]] = 1. / Cond3_core_semicon4_rho;
+  epsilon[Region[{Cond3_core_semicon4}]] = Cond3_core_semicon4_eps_r * eps0;
+
+  nu[Region[{Cond3_core_semicon5}]] = 1. / (mu0 * Cond3_core_semicon5_mu_r);
+  sigma[Region[{Cond3_core_semicon5}]] = 1. / Cond3_core_semicon5_rho;
+  epsilon[Region[{Cond3_core_semicon5}]] = Cond3_core_semicon5_eps_r * eps0;
+
+  nu[Region[{Cond3_sheath_wirearray11}]] = 1. / (mu0 * Cond3_sheath_wirearray11_mu_r);
+  sigma[Region[{Cond3_sheath_wirearray11}]] = 1. / Cond3_sheath_wirearray11_rho;
+  epsilon[Region[{Cond3_sheath_wirearray11}]] = Cond3_sheath_wirearray11_eps_r * eps0;
+
+  nu[Region[{Cond3_sheath_strip12}]] = 1. / (mu0 * Cond3_sheath_strip12_mu_r);
+  sigma[Region[{Cond3_sheath_strip12}]] = 1. / Cond3_sheath_strip12_rho;
+  epsilon[Region[{Cond3_sheath_strip12}]] = Cond3_sheath_strip12_eps_r * eps0;
+
+  nu[Region[{Cond3_sheath_semicon2}]] = 1. / (mu0 * Cond3_sheath_semicon2_mu_r);
+  sigma[Region[{Cond3_sheath_semicon2}]] = 1. / Cond3_sheath_semicon2_rho;
+  epsilon[Region[{Cond3_sheath_semicon2}]] = Cond3_sheath_semicon2_eps_r * eps0;
+
+  nu[Region[{Cond3_jacket_tubular11}]] = 1. / (mu0 * Cond3_jacket_tubular11_mu_r);
+  sigma[Region[{Cond3_jacket_tubular11}]] = 1. / Cond3_jacket_tubular11_rho;
+  epsilon[Region[{Cond3_jacket_tubular11}]] = Cond3_jacket_tubular11_eps_r * eps0;
+
+  nu[Region[{Cond3_jacket_insulator2}]] = 1. / (mu0 * Cond3_jacket_insulator2_mu_r);
+  sigma[Region[{Cond3_jacket_insulator2}]] = 1. / Cond3_jacket_insulator2_rho;
+  epsilon[Region[{Cond3_jacket_insulator2}]] = Cond3_jacket_insulator2_eps_r * eps0;
+
+  nu[Region[{Cond3_jacket_insulator3}]] = 1. / (mu0 * Cond3_jacket_insulator3_mu_r);
+  sigma[Region[{Cond3_jacket_insulator3}]] = 1. / Cond3_jacket_insulator3_rho;
+  epsilon[Region[{Cond3_jacket_insulator3}]] = Cond3_jacket_insulator3_eps_r * eps0;
+
+  Pa = 0.0;
+  Pb = -120./180.*Pi;
+  Pc = -240./180.*Pi;
+  I = 1.0;
+  V = 1.0;
+
+  Ns[] = 1;
+  Sc[] = SurfaceArea[];
+
+  Flag_Degree_a = 1;
+  Flag_Degree_v = 1;
+
+}

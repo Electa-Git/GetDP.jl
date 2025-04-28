@@ -1,0 +1,94 @@
+
+Formulation {
+  { Name Darwin_a_2D; Type FemEquation;
+    //  Magnetodynamics + displacement current, no coupling
+      Quantity {
+        { Name a; Type Local; NameOfSpace Hcurl_a_Mag_2D; }
+        //  massive conductors (source or not)
+        { Name ur; Type Local; NameOfSpace Hregion_u_Mag_2D; }
+        { Name I; Type Global; NameOfSpace Hregion_u_Mag_2D [I]; }
+        { Name U; Type Global; NameOfSpace Hregion_u_Mag_2D [U]; }
+        //  stranded conductors (source)
+        { Name ir; Type Local; NameOfSpace Hregion_i_2D; }
+        { Name Us; Type Global; NameOfSpace Hregion_i_2D[Us]; }
+        { Name Is; Type Global; NameOfSpace Hregion_i_2D[Is]; }
+      }
+      Equation {
+        Galerkin { [ [ nu[] * Dof{d a} , {d a} ] ];
+            In Domain_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        Galerkin { [ DtDof [ sigma[] * Dof{a} , {a} ] ];
+            In DomainC_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        Galerkin { [ [ sigma[] * Dof{ur}, {a} ] ];
+            In DomainC_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        Galerkin { [ DtDof [ sigma[] * Dof{a} , {ur} ] ];
+            In DomainC_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        Galerkin { [ [ sigma[] * Dof{ur}, {ur}] ];
+            In DomainC_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        //  Added term => Darwin approximation
+        Galerkin { [ DtDtDof [ epsilon[] * Dof{a} , {a}] ];
+            In DomainC_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        Galerkin { [ DtDof[ epsilon[] * Dof{ur}, {a} ] ];
+            In DomainC_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        Galerkin { [ DtDtDof [ epsilon[] * Dof{a} , {ur}] ];
+            In DomainC_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        Galerkin { [ DtDof[ epsilon[] * Dof{ur}, {ur} ] ];
+            In DomainC_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        GlobalTerm { [ [ Dof{I} , {U} ] ];
+            In DomainCWithI_Mag;
+        }
+        //  Either you impose directly the function js0[]
+        Galerkin { [ [ -js0[] , {a} ] ];
+            In DomainS0_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        //  or you use the constraints => allows accounting for sigma[]
+        Galerkin { [ [ -Ns[]/Sc[] * Dof{ir}, {a} ] ];
+            In DomainS_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        Galerkin { [ DtDof [ Ns[]/Sc[] * Dof{a}, {ir} ] ];
+            In DomainS_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        //  resistance term
+        Galerkin { [ [ Ns[]/Sc[] / sigma[] * Ns[]/Sc[]* Dof{ir} , {ir}] ];
+            In DomainS_Mag;
+            Jacobian Vol;
+            Integration I1;
+        }
+        GlobalTerm { [ [ Dof{Us}, {Is} ] ];
+            In DomainS_Mag;
+        }
+      }
+  }
+}
