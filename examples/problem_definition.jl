@@ -185,8 +185,8 @@ problem.group = group
 func2 = GetDP.Function() # Use qualified name as established previously
 
 # Define constants
-add!(func2, "mu0", expression="4.e-7 * Pi")
-add!(func2, "eps0", expression="8.854187818e-12")
+add_constant!(func2, "mu0", "4.e-7 * Pi")
+add_constant!(func2, "eps0", "8.854187818e-12")
 add_space!(func2)
 
 # Define properties for general regions

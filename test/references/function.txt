@@ -1,7 +1,7 @@
 
 Function{
-  mu0[] = 4.e-7 * Pi;
-  eps0[] = 8.854187818e-12;
+  mu0 = 4.e-7 * Pi;
+  eps0 = 8.854187818e-12;
 
   nu[Region[{Air}]] = 1./mu0;
   nu[Region[{Soil_Layer1}]] = 1./(mu0*soil_mu1);

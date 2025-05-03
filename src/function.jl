@@ -44,7 +44,7 @@ function add!(func::Function, id; expression, arguments=String[], region=String[
     # Format the identifier
     if !isempty(region)
         region_str = make_args(region)
-        id_str = "$(id)[Region[{$(region_str)}]]"
+        id_str = "$(id)[Region[$(region_str)]]"
     else
         id_str = "$(id)[]"
     end
