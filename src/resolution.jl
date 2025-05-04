@@ -1,7 +1,5 @@
 # Resolution: defining how to solve the problem
-
 using ..GetDP: add_raw_code, comment, make_args
-
 
 """
     SystemItem
@@ -20,6 +18,7 @@ mutable struct SystemItem
         new(name, formulation, Type, Frequency, comment, Dict(kwargs))
     end
 end
+
 function code(item::SystemItem)
     c = "{ Name $(item.name); NameOfFormulation $(item.formulation); Type $(item.Type); Frequency $(item.Frequency);"
     for (k, v) in item.kwargs
@@ -31,6 +30,7 @@ function code(item::SystemItem)
     end
     c
 end
+
 """
     Operation
 
@@ -44,9 +44,22 @@ mutable struct Operation
         new(String[], comment)
     end
 end
+
 function add_operation!(op::Operation, operation::String)
     push!(op.operations, operation)
 end
+
+function code(op::Operation)
+    code_lines = String[]
+    if op.comment !== nothing
+        push!(code_lines, comment(op.comment, newline=false))
+    end
+    for operation in op.operations
+        push!(code_lines, operation)
+    end
+    join(code_lines, "\n")
+end
+
 """
     Resolution
 
@@ -70,9 +83,11 @@ end
 
 Add a resolution with system and operation to the Resolution object.
 """
-function add!(resolution::Resolution, id, system_name; Type, Frequency, Operation, comment=nothing, kwargs...)
-    # Create SystemItem
-    system = SystemItem(system_name, "Darwin_a_2D"; Type=Type, Frequency=Frequency, comment=comment, kwargs...)
+function add!(resolution::Resolution, id, system_name; NameOfFormulation=nothing, Type, Frequency, Operation, comment=nothing, kwargs...)
+    # Use id as resolution name, NameOfFormulation for system formulation
+    resolution.name = id
+    formulation = NameOfFormulation !== nothing ? NameOfFormulation : id
+    system = SystemItem(system_name, formulation; Type=Type, Frequency=Frequency, comment=comment, kwargs...)
     push!(resolution.systems, system)
 
     # Add operations to Operation
@@ -82,6 +97,7 @@ function add!(resolution::Resolution, id, system_name; Type, Frequency, Operatio
 
     resolution.content = code(resolution)
 end
+
 """
     add_raw_code!(resolution::Resolution, raw_code, newline=true)
 
@@ -99,30 +115,33 @@ Add a comment to the Resolution object.
 function add_comment!(resolution::Resolution, comment_text, newline=true)
     add_raw_code!(resolution, comment(comment_text, newline=false), newline)
 end
+
 """
     code(resolution::Resolution)
 
 Generate GetDP code for a Resolution object.
 """
 function code(resolution::Resolution)
-    code_lines = ["\nResolution {"]
-    push!(code_lines, "{ Name Darwin;")
+    code_lines = ["Resolution {"]
+    push!(code_lines, "  { Name $(resolution.name);")
     push!(code_lines, "    System {")
     for system in resolution.systems
         system_code = code(system)
         for line in split(system_code, '\n')
-            push!(code_lines, "    " * line)
+            push!(code_lines, "      " * line)
         end
     end
     push!(code_lines, "    }")
+    push!(code_lines, "    Operation {")
     operation_code = code(resolution.operation)
     for line in split(operation_code, '\n')
-        push!(code_lines, "    $line")
+        push!(code_lines, "      " * line)
     end
-    push!(code_lines, "}}")
+    push!(code_lines, "    }")
+    push!(code_lines, "  }")
+    push!(code_lines, "}")
     join(code_lines, "\n") * "\n"
 end
-
 # System struct
 mutable struct System
     items::Vector{SystemItem}
@@ -161,6 +180,7 @@ mutable struct Operation
         new(String[], comment)
     end
 end
+
 function add_operation!(op::Operation, operation::String)
     push!(op.operations, operation)
 end
