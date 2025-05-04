@@ -80,6 +80,7 @@ resolution = Resolution()
 
 # Add a resolution
 add!(resolution, "Darwin", "Sys_Mag",
+    NameOfFormulation="Darwin_a_2D", 
     Type="Complex", Frequency="Freq",
     Operation=[
         "CreateDir[\"res\"]",
