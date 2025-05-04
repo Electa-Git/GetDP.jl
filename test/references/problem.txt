@@ -56,7 +56,7 @@ Resolution {
 
 PostProcessing {
   { Name EleDyn_v; NameOfFormulation Electrodynamics_v;
-      Quantity {
+      PostQuantity {
       { Name v; Value {
           Term { [ {v} ];
               In Domain_Ele;
