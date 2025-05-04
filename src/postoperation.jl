@@ -162,6 +162,9 @@ Generate GetDP code for a PostOperation object.
 """
 function code(postoperation::PostOperation)
     code_lines = ["\nPostOperation {"]
+    for raw_code in postoperation.raw_codes
+        push!(code_lines, "  " * raw_code)
+    end
     for item in postoperation.items
         item_code = code(item)
         for line in split(item_code, '\n')
@@ -169,9 +172,6 @@ function code(postoperation::PostOperation)
                 push!(code_lines, "  $line")
             end
         end
-    end
-    for raw_code in postoperation.raw_codes
-        push!(code_lines, raw_code)
     end
     push!(code_lines, "}")
     if postoperation.comment !== nothing
