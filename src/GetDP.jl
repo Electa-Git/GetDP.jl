@@ -1,4 +1,5 @@
 module GetDP
+__precompile__(false)
 
 using Dates
 

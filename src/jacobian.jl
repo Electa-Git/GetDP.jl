@@ -2,9 +2,9 @@
 
 using ..GetDP: add_raw_code, comment, make_args
 
-function code(item::SimpleItem)
-    return item.code
-end
+# function code(item::SimpleItem)
+#     return item.code
+# end
 
 mutable struct CaseItem
     regions::Vector{Dict{String, Any}}
@@ -59,14 +59,14 @@ function update_code!(item::ObjectItem)
     item._code *= "}"
 end
 
-function code(item::ObjectItem)
-    case_codes = join([code(case) for case in item.cases], "\n")
-    _code = "{ Name $(item.Name); Case {\n" * case_codes * "\n} }"
-    if !isempty(item.comment)
-        _code *= " " * GetDP.comment(item.comment)
-    end
-    return _code
-end
+# function code(item::ObjectItem)
+#     case_codes = join([code(case) for case in item.cases], "\n")
+#     _code = "{ Name $(item.Name); Case {\n" * case_codes * "\n} }"
+#     if !isempty(item.comment)
+#         _code *= " " * GetDP.comment(item.comment)
+#     end
+#     return _code
+# end
 # Jacobian struct
 mutable struct Jacobian <: AbstractGetDPObject
     name::String

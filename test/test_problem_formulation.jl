@@ -138,7 +138,7 @@ include("../test/normalized.jl")
     make_file!(problem)
 
 
-    generated_code = join(problem._GETDP_CODE)
+    generated_code = join(problem._GETDP_CODE[2:end])
     # Test against reference file
     @test_reference "references/problem.txt" generated_code by=normalize_exact
 end
