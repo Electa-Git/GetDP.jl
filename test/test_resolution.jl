@@ -11,6 +11,7 @@ include("../test/normalized.jl")
 
     # Add a resolution
     add!(resolution, "Darwin", "Sys_Mag",
+        NameOfFormulation="Darwin_2D",
         Type="Complex", Frequency="Freq",
         Operation=[
             "CreateDir[\"res\"]",
