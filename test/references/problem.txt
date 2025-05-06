@@ -22,12 +22,12 @@ Formulation {
         { Name v; Type Local; NameOfSpace Hgrad_v_Ele; }
       }
       Equation {
-        Galerkin { [ [ sigma[] * Dof{d v} , {d v} ] ];
+        Galerkin { [ sigma[] * Dof{d v} , {d v} ];
             In Domain_Ele;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ DtDof[ epsilon[] * Dof{d v} , {d v} ] ];
+        Galerkin { DtDof[ epsilon[] * Dof{d v} , {d v} ];
             In Domain_Ele;
             Jacobian Vol;
             Integration I1;
@@ -41,14 +41,12 @@ Resolution {
       { Name Sys_Ele; NameOfFormulation Electrodynamics_v; Type Complex; Frequency Freq; }
     }
     Operation {
-      Operation {
-          CreateDir["res"];
-          Generate[Sys_Ele];
-          Solve[Sys_Ele];
-          SaveSolution[Sys_Ele];
-          PostOperation[Ele_Maps];
-          PostOperation[Ele_Cuts];
-      }
+      CreateDir["res"];
+      Generate[Sys_Ele];
+      Solve[Sys_Ele];
+      SaveSolution[Sys_Ele];
+      PostOperation[Ele_Maps];
+      PostOperation[Ele_Cuts];
     }
   }
 }

@@ -135,7 +135,7 @@ function code(resolution::Resolution)
     push!(code_lines, "    Operation {")
     operation_code = code(resolution.operation)
     for line in split(operation_code, '\n')
-        push!(code_lines, "      " * line)
+        push!(code_lines, "      " * line*";")
     end
     push!(code_lines, "    }")
     push!(code_lines, "  }")
@@ -167,23 +167,6 @@ function add!(system::System, name, formulation; kwargs...)
     return item
 end
 
-"""
-    Operation
-
-An operation in a resolution.
-"""
-mutable struct Operation
-    operations::Vector{String}
-    comment::Union{String,Nothing}
-
-    function Operation(; comment=nothing)
-        new(String[], comment)
-    end
-end
-
-function add_operation!(op::Operation, operation::String)
-    push!(op.operations, operation)
-end
 # Operation methods
 function generate(op::Operation, system_id)
     return "Generate[$system_id]"
@@ -512,14 +495,14 @@ function add_iterative_loop(op::Operation; kwargs...)
     return loop_code
 end
 
-function code(op::Operation)
-    code_lines = ["Operation {"]
-    for operation in op.operations
-        push!(code_lines, "    $operation;")
-    end
-    push!(code_lines, "}")
-    join(code_lines, "\n")
-end
+# function code(op::Operation) #CHANGE
+#     code_lines = ["Operation {"]
+#     for operation in op.operations
+#         push!(code_lines, "    $operation;")
+#     end
+#     push!(code_lines, "}")
+#     join(code_lines, "\n")
+# end
 
 
 # ResolutionItem struct

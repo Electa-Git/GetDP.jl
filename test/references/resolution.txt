@@ -1,19 +1,16 @@
-
 Resolution {
   { Name Darwin;
     System {
       { Name Sys_Mag; NameOfFormulation Darwin_2D; Type Complex; Frequency Freq; }
     }
     Operation {
-      Operation {
-          CreateDir["res"];
-          InitSolution[Sys_Mag];
-          Generate[Sys_Mag];
-          Solve[Sys_Mag];
-          SaveSolution[Sys_Mag];
-          PostOperation[Mag_Maps];
-          PostOperation[Mag_Global];
-      }
+      CreateDir["res"];
+      InitSolution[Sys_Mag];
+      Generate[Sys_Mag];
+      Solve[Sys_Mag];
+      SaveSolution[Sys_Mag];
+      PostOperation[Mag_Maps];
+      PostOperation[Mag_Global];
     }
   }
 }

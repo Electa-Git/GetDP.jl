@@ -48,7 +48,7 @@ function code(term::EquationTerm)
         push!(code_lines, comment(term.comment, newline=false))
     end
     if term.term_type == "Galerkin"
-        push!(code_lines, "Galerkin { [ $(term.term) ];")
+        push!(code_lines, "Galerkin { $(term.term);")
         # Order: In, Jacobian, Integration
         for key in [:In, :Jacobian, :Integration]
             if haskey(term.options, key)
@@ -63,7 +63,7 @@ function code(term::EquationTerm)
         end
         push!(code_lines, "}")
     elseif term.term_type == "GlobalTerm"
-        push!(code_lines, "GlobalTerm { [ $(term.term) ];")
+        push!(code_lines, "GlobalTerm {  $(term.term) ;")
         for (k, v) in term.options
             push!(code_lines, "    $k $(make_args(v, sep=","));")
         end

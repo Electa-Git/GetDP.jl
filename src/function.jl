@@ -24,7 +24,7 @@ end
 Add a simple function to the Function object.
 """
 function add!(func::Function, id, expression; comment=nothing)
-    c = "$(id)[] = $(expression);"
+    c = "$(id)() = $(expression);"
     func.content *= c
 
     if comment !== nothing
