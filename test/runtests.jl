@@ -13,6 +13,7 @@ result = @testset "All GetDP.jl Tests" begin
     include("test_group.jl")
     include("test_function.jl")
     include("test_constraint.jl")
+    include("test_problem_formulation.jl")
 end
 
 # Calculate total passed tests by summing across all child testsets

@@ -1,5 +1,3 @@
-# PostProcessing: defining post-processing
-
 using ..GetDP: add_raw_code, comment, make_args
 
 """
@@ -8,30 +6,31 @@ using ..GetDP: add_raw_code, comment, make_args
 A term or integral in a post-processing quantity.
 """
 mutable struct QuantityTerm
-    Type::String
+    term_type::String  # "Term" or "Integral"
     Value::String
     options::Dict
     comment::Union{String,Nothing}
 
-    function QuantityTerm(; Type, Value, comment=nothing, kwargs...)
-        new(Type, Value, Dict(kwargs), comment)
+    function QuantityTerm(; term_type, Value, comment=nothing, kwargs...)
+        new(term_type, Value, Dict(kwargs), comment)
     end
 end
 
 function code(term::QuantityTerm)
     code_lines = String[]
-    if term.Type == "Term"
-        push!(code_lines, "Term { [ $(term.Value) ];")
-        # Order: In, Jacobian
+    if term.term_type == "Term"
+        # Include Type option (e.g., Global) if specified
+        type_str = haskey(term.options, :Type) ? "Type $(term.options[:Type]); " : ""
+        push!(code_lines, "Term { $type_str[ $(term.Value) ];")
+        # Include In, Jacobian, Integration options in order
         for key in [:In, :Jacobian, :Integration]
             if haskey(term.options, key)
                 push!(code_lines, "    $key $(make_args(term.options[key], sep=","));")
             end
         end
         push!(code_lines, "}")
-    elseif term.Type == "Integral"
+    elseif term.term_type == "Integral"
         push!(code_lines, "Integral { [ $(term.Value) ];")
-        # Order: In, Jacobian, Integration
         for key in [:In, :Jacobian, :Integration]
             if haskey(term.options, key)
                 push!(code_lines, "    $key $(make_args(term.options[key], sep=","));")
@@ -39,7 +38,7 @@ function code(term::QuantityTerm)
         end
         push!(code_lines, "}")
     else
-        error("Unsupported term type: $(term.Type)")
+        error("Unsupported term type: $(term.term_type)")
     end
     join(code_lines, "\n")
 end
@@ -59,8 +58,8 @@ mutable struct PostQuantity
     end
 end
 
-function add!(quantity::PostQuantity, Type, Value; comment=nothing, kwargs...)
-    term = QuantityTerm(; Type=Type, Value=Value, comment=comment, kwargs...)
+function add!(quantity::PostQuantity, term_type, Value; comment=nothing, kwargs...)
+    term = QuantityTerm(; term_type=term_type, Value=Value, comment=comment, kwargs...)
     push!(quantity.terms, term)
     term
 end

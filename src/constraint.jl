@@ -83,6 +83,8 @@ Set a For loop for the ConstraintItem (e.g., For k In {1:3}).
 """
 function for_loop!(item::ConstraintItem, index, range)
     item.for_loop = (index, range)
+    push!(item.cases, Dict("LoopStart" => true))  # Add marker for loop start
+    return item
 end
 
 """
@@ -131,23 +133,20 @@ function code(constraint::Constraint)
         push!(code_lines, "  { Name $(item.name); Type $(item.type);")
         push!(code_lines, "    Case {")
 
-        # Handle For loop if present
-        if item.for_loop !== nothing
-            index, range = item.for_loop
-            push!(code_lines, "      For $(index) In {$(range)}")
-        end
+        # Split cases into pre-loop and loop cases
+        loop_start_idx = findfirst(c -> haskey(c, "LoopStart"), item.cases)
+        pre_loop_cases = loop_start_idx === nothing ? item.cases : item.cases[1:loop_start_idx-1]
+        loop_cases = loop_start_idx === nothing ? Dict{String, Any}[] : item.cases[loop_start_idx+1:end]
 
-        # Add cases with proper indentation
-        indent_level = item.for_loop !== nothing ? "        " : "      "
-        for case in item.cases
+        # Pre-loop cases
+        for case in pre_loop_cases
             if haskey(case, "Comment") && case["Comment"] !== nothing
-                push!(code_lines, indent_level * comment(case["Comment"], newline=false))
+                push!(code_lines, "      " * comment(case["Comment"], newline=false))
             end
-            # Skip generating case line if Region is missing or nothing
             if !haskey(case, "Region") || case["Region"] === ""
                 continue
             end
-            line = indent_level * "{ Region $(case["Region"])"
+            line = "      { Region $(case["Region"])"
             if haskey(case, "Value")
                 line *= "; Value $(case["Value"])"
             end
@@ -158,8 +157,27 @@ function code(constraint::Constraint)
             push!(code_lines, line)
         end
 
-        # Close For loop if present
+        # Loop cases
         if item.for_loop !== nothing
+            index, range = item.for_loop
+            push!(code_lines, "      For $(index) In {$(range)}")
+            for case in loop_cases
+                if haskey(case, "Comment") && case["Comment"] !== nothing
+                    push!(code_lines, "        " * comment(case["Comment"], newline=false))
+                end
+                if !haskey(case, "Region") || case["Region"] === ""
+                    continue
+                end
+                line = "        { Region $(case["Region"])"
+                if haskey(case, "Value")
+                    line *= "; Value $(case["Value"])"
+                end
+                if haskey(case, "TimeFunction")
+                    line *= "; TimeFunction $(case["TimeFunction"])"
+                end
+                line *= "; }"
+                push!(code_lines, line)
+            end
             push!(code_lines, "      EndFor")
         end
 
@@ -168,8 +186,6 @@ function code(constraint::Constraint)
     end
 
     push!(code_lines, "}")
-
-    # Add top-level comment if present
     if constraint.comment !== nothing
         return comment(constraint.comment) * "\n" * join(code_lines, "\n")
     else

@@ -92,6 +92,10 @@ mutable struct SimpleItem
     end
 end
 
+function code(item::SimpleItem)
+    return item.code
+end
+
 """
     Base_
 
