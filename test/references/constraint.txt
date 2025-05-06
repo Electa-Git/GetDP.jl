@@ -12,9 +12,9 @@ Constraint{
   // Only if second order basis functions
   { Name ZeroElectricScalarPotential; Type Assign;
     Case {
+      { Region Sur_Dirichlet_Ele; Value 0; }
       For k In {1:3}
         { Region Ind~{k}; Value 0; }
-        { Region Sur_Dirichlet_Ele; Value 0; }
       EndFor
     }
   }

@@ -72,7 +72,7 @@ function make_args(glist; sep::String=", ", list_char::Bool=false)
 
     if isa(glist, Array)
         if length(glist) == 1
-            return string(glist[1])
+            return "{" * string(glist[1]) * "}"
         else
             formatted = join([string(g) for g in glist], sep)
             return list_char ? "#{$formatted}" : "{$formatted}"

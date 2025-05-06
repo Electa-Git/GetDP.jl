@@ -24,7 +24,7 @@ end
 Add a simple function to the Function object.
 """
 function add!(func::Function, id, expression; comment=nothing)
-    c = "$(id)[] = $(expression);"
+    c = "$(id)() = $(expression);"
     func.content *= c
 
     if comment !== nothing
@@ -44,7 +44,7 @@ function add!(func::Function, id; expression, arguments=String[], region=String[
     # Format the identifier
     if !isempty(region)
         region_str = make_args(region)
-        id_str = "$(id)[Region[{$(region_str)}]]"
+        id_str = "$(id)[Region[$(region_str)]]"
     else
         id_str = "$(id)[]"
     end
