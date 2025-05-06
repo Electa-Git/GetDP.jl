@@ -7,7 +7,7 @@ include("../test/normalized.jl")
 
 @testset "Constraint Generation" begin
 
-   # Add the Constraint definition
+    # Add the Constraint definition
     constraint = GetDP.Constraint()
 
     # Electrical constraints
@@ -22,9 +22,9 @@ include("../test/normalized.jl")
 
     # ZeroElectricScalarPotential
     zesp = assign!(constraint, "ZeroElectricScalarPotential", comment="Only if second order basis functions")
-    for_loop!(zesp, "k", "1:3")
-    case!(zesp, "Ind~{k}", value="0")
     case!(zesp, "Sur_Dirichlet_Ele", value="0")
+    zesp_loop = for_loop!(zesp, "k", "1:3")
+    case!(zesp_loop, "Ind~{k}", value="0")
 
     # Magnetic constraints
     add_comment!(constraint, "Magnetic constraints")

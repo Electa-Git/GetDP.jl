@@ -11,8 +11,8 @@ include("../test/normalized.jl")
     func = GetDP.Function() # Use qualified name as established previously
 
     # Define constants
-    add!(func, "mu0", expression="4.e-7 * Pi")
-    add!(func, "eps0", expression="8.854187818e-12")
+    add_constant!(func, "mu0", "4.e-7 * Pi")
+    add_constant!(func, "eps0", "8.854187818e-12")
     add_space!(func)
 
     # Define properties for general regions

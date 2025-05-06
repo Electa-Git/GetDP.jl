@@ -14,79 +14,79 @@ Formulation {
         { Name Is; Type Global; NameOfSpace Hregion_i_2D[Is]; }
       }
       Equation {
-        Galerkin { [ [ nu[] * Dof{d a} , {d a} ] ];
+        Galerkin { [ nu[] * Dof{d a} , {d a} ];
             In Domain_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ DtDof [ sigma[] * Dof{a} , {a} ] ];
+        Galerkin { DtDof [ sigma[] * Dof{a} , {a} ];
             In DomainC_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ [ sigma[] * Dof{ur}, {a} ] ];
+        Galerkin { [ sigma[] * Dof{ur}, {a} ];
             In DomainC_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ DtDof [ sigma[] * Dof{a} , {ur} ] ];
+        Galerkin { DtDof [ sigma[] * Dof{a} , {ur} ];
             In DomainC_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ [ sigma[] * Dof{ur}, {ur}] ];
+        Galerkin { [ sigma[] * Dof{ur}, {ur}];
             In DomainC_Mag;
             Jacobian Vol;
             Integration I1;
         }
         //  Added term => Darwin approximation
-        Galerkin { [ DtDtDof [ epsilon[] * Dof{a} , {a}] ];
+        Galerkin { DtDtDof [ epsilon[] * Dof{a} , {a}];
             In DomainC_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ DtDof[ epsilon[] * Dof{ur}, {a} ] ];
+        Galerkin { DtDof[ epsilon[] * Dof{ur}, {a} ];
             In DomainC_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ DtDtDof [ epsilon[] * Dof{a} , {ur}] ];
+        Galerkin { DtDtDof [ epsilon[] * Dof{a} , {ur}];
             In DomainC_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ DtDof[ epsilon[] * Dof{ur}, {ur} ] ];
+        Galerkin { DtDof[ epsilon[] * Dof{ur}, {ur} ];
             In DomainC_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        GlobalTerm { [ [ Dof{I} , {U} ] ];
+        GlobalTerm {  [ Dof{I} , {U} ] ;
             In DomainCWithI_Mag;
         }
         //  Either you impose directly the function js0[]
-        Galerkin { [ [ -js0[] , {a} ] ];
+        Galerkin { [ -js0[] , {a} ];
             In DomainS0_Mag;
             Jacobian Vol;
             Integration I1;
         }
         //  or you use the constraints => allows accounting for sigma[]
-        Galerkin { [ [ -Ns[]/Sc[] * Dof{ir}, {a} ] ];
+        Galerkin { [ -Ns[]/Sc[] * Dof{ir}, {a} ];
             In DomainS_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        Galerkin { [ DtDof [ Ns[]/Sc[] * Dof{a}, {ir} ] ];
+        Galerkin { DtDof [ Ns[]/Sc[] * Dof{a}, {ir} ];
             In DomainS_Mag;
             Jacobian Vol;
             Integration I1;
         }
         //  resistance term
-        Galerkin { [ [ Ns[]/Sc[] / sigma[] * Ns[]/Sc[]* Dof{ir} , {ir}] ];
+        Galerkin { [ Ns[]/Sc[] / sigma[] * Ns[]/Sc[]* Dof{ir} , {ir}];
             In DomainS_Mag;
             Jacobian Vol;
             Integration I1;
         }
-        GlobalTerm { [ [ Dof{Us}, {Is} ] ];
+        GlobalTerm {  [ Dof{Us}, {Is} ] ;
             In DomainS_Mag;
         }
       }

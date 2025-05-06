@@ -11,19 +11,17 @@ include("../test/normalized.jl")
     # Initialize Integration
     integ = Integration()
     i1 = add!(integ, "I1")
-    
+
     case = add!(i1)
-    
-    gauss_case = add!(case; Type="Gauss")
-    
-    geo_case = add_nested_case!(gauss_case)
-    
+
+    geo_case = add_nested_case!(case; type="Gauss")
+
     add!(geo_case; GeoElement="Point", NumberOfPoints=1)
     add!(geo_case; GeoElement="Line", NumberOfPoints=4)
     add!(geo_case; GeoElement="Triangle", NumberOfPoints=4)
     add!(geo_case; GeoElement="Quadrangle", NumberOfPoints=4)
     add!(geo_case; GeoElement="Triangle2", NumberOfPoints=7)
-    
+
     generated_code = code(integ)
     # Test against reference file
     @test_reference "references/integration.txt" generated_code by=normalize_exact

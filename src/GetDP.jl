@@ -36,7 +36,7 @@ export add_quantity!, add_equation!, content, add_subspace!
 export Region, Global, NodesOf, EdgesOf, FacetsOf, VolumesOf, ElementsOf
 export GroupsOfNodesOf, GroupsOfEdgesOf, GroupsOfEdgesOnNodesOf, GroupOfRegionsOf
 export EdgesOfTreeIn, FacetsOfTreeIn, DualNodesOf, DualEdgesOf, DualFacetsOf, DualVolumesOf
-export get_code, make_file!, write_file!, include!
+export get_code, make_file!, write_file!, include!, write_multiple_problems
 
 export add_constraint!, add_global_quantity!, error, add_operation!, add_basis_function!
 export add_case!, VolSphShell, add_nested_case!, add_space!, add_constant!, assign!, case!
