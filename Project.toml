@@ -12,6 +12,7 @@ StringManipulation = "892a3eda-7b42-436c-8928-eab12a02cf0e"
 
 [compat]
 Revise = "3"
+StringManipulation = "0.4"
 
 [extras]
 ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
