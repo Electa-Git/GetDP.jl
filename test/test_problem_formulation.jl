@@ -24,7 +24,8 @@ include("../test/normalized.jl")
         condition="If (Flag_Degree_v == 2)", 
         endCondition="EndIf")
 
-    problem.functionspace = functionspace
+    # problem.functionspace = functionspace
+    push!(problem.functionspace, functionspace) 
     
     # Formulation section
     formulation = Formulation()
@@ -35,7 +36,8 @@ include("../test/normalized.jl")
     add!(eq, "Galerkin", "[ sigma[] * Dof{d v} , {d v} ]", In="Domain_Ele", Jacobian="Vol", Integration="I1")
     add!(eq, "Galerkin", "DtDof[ epsilon[] * Dof{d v} , {d v} ]", In="Domain_Ele", Jacobian="Vol", Integration="I1")
     
-    problem.formulation = formulation
+    # problem.formulation = formulation
+    push!(problem.formulation, formulation)
     
     # Resolution section
     resolution = Resolution()
@@ -52,7 +54,8 @@ include("../test/normalized.jl")
             "PostOperation[Ele_Cuts]"
         ])
     
-    problem.resolution = resolution
+    # problem.resolution = resolution
+    push!(problem.resolution, resolution)
     
     ## PostProcessing section
     postprocessing = PostProcessing()
@@ -96,7 +99,8 @@ include("../test/normalized.jl")
     q = add!(pp, "C_from_Energy")
     add!(q, "Term", "2*\$We/SquNorm[\$voltage]"; Type="Global", In="DomainDummy")
     
-    problem.postprocessing = postprocessing
+    # problem.postprocessing = postprocessing
+    push!(problem.postprocessing, postprocessing)
     
     # PostOperation section
     postoperation = PostOperation()
@@ -132,7 +136,8 @@ include("../test/normalized.jl")
     add_operation!(op2, "Print[ em, OnLine { {x2,y2,0} {x2+dc/2+ti+txlpe+to+tapl,y2,0} } {100}, Name \"|E| [V/m] cut in phase 2\", File \"res/em_cut.pos\" ]")
     add_operation!(op2, "Echo[Str[\"View[PostProcessing.NbViews-1].Type = 4;\",\n        \"View[PostProcessing.NbViews-1].Axes = 3;\",\n        \"View[PostProcessing.NbViews-1].AutoPosition = 3;\",\n        \"View[PostProcessing.NbViews-1].ShowTime = 0;\",\n        \"View[PostProcessing.NbViews-1].LineWidth = 3;\",\n        \"View[PostProcessing.NbViews-1].NbIso = 5;\"],\n      File \"res/em_cut.opt\" ]")
     
-    problem.postoperation = postoperation
+    # problem.postoperation = postoperation
+    push!(problem.postoperation, postoperation)
 
     # Generate and write the .pro file
     make_file!(problem)
