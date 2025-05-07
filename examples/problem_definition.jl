@@ -179,7 +179,7 @@ add!(group, "DomainDummy", [12345], "Region")
 # add_space!(group)
 
 # Assign Group to Problem
-problem.group = group
+push!(problem.group, group)
 
 # Add the second Function definition
 func2 = GetDP.Function() # Use qualified name as established previously
@@ -389,8 +389,9 @@ add_constant!(func2, "Flag_Degree_v", "1")
 
 add_space!(func2)
 
-problem.function_obj = [func1, func2]
-
+# problem.function_obj = [func1, func2]
+push!(problem.function_obj, func1)
+push!(problem.function_obj, func2)
 # Add the Constraint definition
 constraint = GetDP.Constraint()
 
@@ -428,8 +429,8 @@ case!(current, "Ind_2", value="I", time_function="F_Cos_wt_p[]{2*Pi*Freq, Pb}")
 case!(current, "Ind_3", value="I", time_function="F_Cos_wt_p[]{2*Pi*Freq, Pc}")
 
 # Assign Constraint to Problem
-problem.constraint = constraint
-
+# problem.constraint = constraint
+push!(problem.constraint, constraint)
 # Generate and write the .pro file
 make_file!(problem)
 
