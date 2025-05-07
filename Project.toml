@@ -11,6 +11,7 @@ Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 StringManipulation = "892a3eda-7b42-436c-8928-eab12a02cf0e"
 
 [compat]
+ReferenceTests = "0.10"
 Revise = "3"
 StringManipulation = "0.4"
 
