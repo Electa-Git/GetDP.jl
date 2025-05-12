@@ -14,15 +14,15 @@ problem = Problem()
 functionspace = FunctionSpace()
 fs1 = add!(functionspace, "Hgrad_v_Ele", nothing, nothing, Type="Form0")
 add_basis_function!(functionspace, "sn", "vn", "BF_Node"; Support="Domain_Ele", Entity="NodesOf[ All ]")
-add_basis_function!(functionspace, "sn2", "vn2", "BF_Node_2E"; 
-    Support="Domain_Ele", 
-    Entity="EdgesOf[ All ]", 
-    condition="If (Flag_Degree_v == 2)", 
+add_basis_function!(functionspace, "sn2", "vn2", "BF_Node_2E";
+    Support="Domain_Ele",
+    Entity="EdgesOf[ All ]",
+    condition="If (Flag_Degree_v == 2)",
     endCondition="EndIf")
 
 add_constraint!(functionspace, "vn", "NodesOf", "ElectricScalarPotential")
-add_constraint!(functionspace, "vn2", "EdgesOf", "ZeroElectricScalarPotential"; 
-    condition="If (Flag_Degree_v == 2)", 
+add_constraint!(functionspace, "vn2", "EdgesOf", "ZeroElectricScalarPotential";
+    condition="If (Flag_Degree_v == 2)",
     endCondition="EndIf")
 
 problem.functionspace = functionspace
@@ -40,16 +40,16 @@ problem.formulation = formulation
 
 # Resolution section
 resolution = Resolution()
-add!(resolution, "Electrodynamics", "Sys_Ele", 
-    NameOfFormulation="Electrodynamics_v", 
-    Type="Complex", 
-    Frequency="Freq", 
+add!(resolution, "Electrodynamics", "Sys_Ele",
+    NameOfFormulation="Electrodynamics_v",
+    Type="Complex",
+    Frequency="Freq",
     Operation=[
         "CreateDir[\"res\"]",
-        "Generate[Sys_Ele]", 
-        "Solve[Sys_Ele]", 
-        "SaveSolution[Sys_Ele]", 
-        "PostOperation[Ele_Maps]", 
+        "Generate[Sys_Ele]",
+        "Solve[Sys_Ele]",
+        "SaveSolution[Sys_Ele]",
+        "PostOperation[Ele_Maps]",
         "PostOperation[Ele_Cuts]"
     ])
 
@@ -118,14 +118,17 @@ add_operation!(op1, "Print[ V0, OnRegion Ind_1, Format Table, StoreInVariable \$
 add_operation!(op1, "Print[ C_from_Energy, OnRegion DomainDummy, Format Table, StoreInVariable \$C1, SendToServer StrCat[po0,\"1Cpha\"], Units \"F/m\", File \"res/C.dat\" ]")
 
 # Cable geometry
-add_raw_code!(postoperation, """
+add_raw_code!(
+    postoperation,
+    """
 // To adapt for your cable
   dist_cab = dc + 2*(ti+txlpe+to+tapl)+tps;
   h = dist_cab * Sin[Pi/3]; // height of equilateral triangle
   x0 = 0; y0 = 2*h/3;
   x1 = -dist_cab/2; y1 = -h/3;
   x2 =  dist_cab/2; y2 = -h/3;
-""")
+"""
+)
 
 # Ele_Cuts
 po2 = add!(postoperation, "Ele_Cuts", "EleDyn_v")
@@ -140,4 +143,4 @@ make_file!(problem)
 
 # Write the code to a file
 problem.filename = "electrodynamic_formulation_byjlgetdp.pro"
-write_file!(problem)
+write_file(problem)

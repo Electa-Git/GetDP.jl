@@ -80,7 +80,7 @@ resolution = Resolution()
 
 # Add a resolution
 add!(resolution, "Darwin", "Sys_Mag",
-    NameOfFormulation="Darwin_a_2D", 
+    NameOfFormulation="Darwin_a_2D",
     Type="Complex", Frequency="Freq",
     Operation=[
         "CreateDir[\"res\"]",
@@ -218,4 +218,4 @@ make_file!(problem)
 
 # Write the code to a file
 problem.filename = "darwin_formulation.pro"
-write_file!(problem)
+write_file(problem)

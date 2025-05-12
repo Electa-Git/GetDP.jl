@@ -38,4 +38,4 @@ problem.integration = integ
 make_file!(problem)
 # Generate and write the .pro file
 problem.filename = "jacobian_by_jlgetdp.pro"
-write_file!(problem)
+write_file(problem)

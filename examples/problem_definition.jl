@@ -466,4 +466,4 @@ EndIf
 
 # Write the code to a file
 problem.filename = "problem_definition.pro"
-write_file!(problem)
+write_file(problem)

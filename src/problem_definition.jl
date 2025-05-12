@@ -161,11 +161,11 @@ function make_file!(problem::Problem)
 end
 
 """
-    write_file!(problem::Problem)
+    write_file(problem::Problem)
 
 Write the GetDP code to a file.
 """
-function write_file!(problem::Problem)
+function write_file(problem::Problem)
     if problem.filename === nothing
         problem.filename = tempname()
     end
@@ -204,7 +204,7 @@ function write_multiple_problems(problems::Vector{Problem}, filename::String)
     open(filename, "w") do f
         # Write the version comment at the top
         write(f, version_comment)
-        
+
         # Process each problem
         for (i, problem) in enumerate(problems)
             # Generate the GetDP code for this problem
