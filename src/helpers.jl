@@ -111,21 +111,21 @@ function get_getdp_major_version(getdp_exe=get_getdp_exe())
     return parse(Int, ex[1])
 end
 
-"""
-    replace_formula(str_in, to_replace, replacement)
+# """
+#     replace_formula(str_in, to_replace, replacement)
 
-Replace formulas in a string.
-"""
-function replace_formula(str_in, to_replace, replacement)
-    str_in = replace(join(split(str_in)), "{" => "", "}" => "")
+# Replace formulas in a string.
+# """
+# function replace_formula(str_in, to_replace, replacement)
+#     str_in = replace(join(split(str_in)), "{" => "", "}" => "")
 
-    to_replace = [replace(join(split(r)), "{" => "", "}" => "") for r in to_replace]
+#     to_replace = [replace(join(split(r)), "{" => "", "}" => "") for r in to_replace]
 
-    # This is a simplified version of the Python tokenize approach
-    # In a real implementation, we might want to use a proper Julia tokenizer
-    for (rold, rnew) in zip(to_replace, replacement)
-        str_in = replace(str_in, rold => rnew)
-    end
+#     # This is a simplified version of the Python tokenize approach
+#     # In a real implementation, we might want to use a proper Julia tokenizer
+#     for (rold, rnew) in zip(to_replace, replacement)
+#         str_in = replace(str_in, rold => rnew)
+#     end
 
-    return str_in
-end
+#     return str_in
+# end

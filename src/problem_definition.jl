@@ -26,8 +26,7 @@ mutable struct Problem
     objects::Vector{String}
 
     function Problem(; gmsh_major_version=nothing)
-        version = GetDP.VERSION
-        _GETDP_CODE = ["// This code was created by GetDP.jl v$(version).\n"]
+        _GETDP_CODE = ["// File created with GetDP.jl: https://github.com/Electa-Git/GetDP.jl.\n"]
 
         group = Group()
         function_obj = Function[]  # Initialize as empty vector
@@ -185,35 +184,35 @@ function include!(problem::Problem, incl_file)
 end
 
 
-"""
-    write_multiple_problems(problems::Vector{Problem}, filename::String)
+# """
+#     write_multiple_problems(problems::Vector{Problem}, filename::String)
 
-Write the GetDP code for multiple Problem instances to a single file.
-The version comment is included only once at the top, and each problem's code
-is separated by a comment indicating its index.
-"""
-function write_multiple_problems(problems::Vector{Problem}, filename::String)
-    if isempty(problems)
-        error("No problems to write.")
-    end
+# Write the GetDP code for multiple Problem instances to a single file.
+# The version comment is included only once at the top, and each problem's code
+# is separated by a comment indicating its index.
+# """
+# function write_multiple_problems(problems::Vector{Problem}, filename::String)
+#     if isempty(problems)
+#         error("No problems to write.")
+#     end
 
-    # Define the version comment once, assuming GetDP.VERSION is accessible
-    version = GetDP.VERSION
-    version_comment = "// This code was created by GetDP.jl v$(version).\n"
+#     # Define the version comment once, assuming GetDP.VERSION is accessible
+#     version = GetDP.VERSION
+#     version_comment = "// This code was created by GetDP.jl v$(version).\n"
 
-    open(filename, "w") do f
-        # Write the version comment at the top
-        write(f, version_comment)
+#     open(filename, "w") do f
+#         # Write the version comment at the top
+#         write(f, version_comment)
 
-        # Process each problem
-        for (i, problem) in enumerate(problems)
-            # Generate the GetDP code for this problem
-            make_file!(problem)
-            # Skip the version comment (first element) and join the rest
-            component_code = join(problem._GETDP_CODE[2:end], "")
-            # Add a separator with problem index
-            write(f, "\n// Problem $i\n")
-            write(f, component_code)
-        end
-    end
-end
+#         # Process each problem
+#         for (i, problem) in enumerate(problems)
+#             # Generate the GetDP code for this problem
+#             make_file!(problem)
+#             # Skip the version comment (first element) and join the rest
+#             component_code = join(problem._GETDP_CODE[2:end], "")
+#             # Add a separator with problem index
+#             write(f, "\n// Problem $i\n")
+#             write(f, component_code)
+#         end
+#     end
+# end
