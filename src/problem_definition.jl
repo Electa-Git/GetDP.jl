@@ -8,37 +8,37 @@ using Dates
 """
     Problem
 
-The main problem definition class that brings together all the components.
+A classe principal de definição de problema que reúne todos os componentes.
 """
 mutable struct Problem
     _GETDP_CODE::Vector{String}
     filename::Union{String,Nothing}
-    group::Group
+    group::Vector{Group}
     function_obj::Vector{Function}
-    constraint::Constraint
-    functionspace::FunctionSpace
-    jacobian::Jacobian
-    integration::Integration
-    formulation::Formulation
-    resolution::Resolution
-    postprocessing::PostProcessing
-    postoperation::PostOperation
+    constraint::Vector{Constraint}
+    functionspace::Vector{FunctionSpace}
+    jacobian::Vector{Jacobian}
+    integration::Vector{Integration}
+    formulation::Vector{Formulation}
+    resolution::Vector{Resolution}
+    postprocessing::Vector{PostProcessing}
+    postoperation::Vector{PostOperation}
     objects::Vector{String}
 
     function Problem(; gmsh_major_version=nothing)
         version = GetDP.VERSION
         _GETDP_CODE = ["// This code was created by GetDP.jl v$(version).\n"]
 
-        group = Group()
-        function_obj = Function[]  # Initialize as empty vector
-        constraint = Constraint()
-        functionspace = FunctionSpace()
-        jacobian = Jacobian()
-        integration = Integration()
-        formulation = Formulation()
-        resolution = Resolution()
-        postprocessing = PostProcessing()
-        postoperation = PostOperation()
+        group = Group[]
+        function_obj = Function[]
+        constraint = Constraint[]
+        functionspace = FunctionSpace[]
+        jacobian = Jacobian[]
+        integration = Integration[]
+        formulation = Formulation[]
+        resolution = Resolution[]
+        postprocessing = PostProcessing[]
+        postoperation = PostOperation[]
 
         objects = [
             "group",
@@ -74,7 +74,7 @@ end
 """
     get_code(problem::Problem)
 
-Returns properly formatted GetDP code.
+Retorna o código GetDP formatado adequadamente.
 """
 function get_code(problem::Problem)
     return join(problem._GETDP_CODE, "")
@@ -83,7 +83,7 @@ end
 """
     add_raw_code!(problem::Problem, raw_code, newline=true)
 
-Add raw code to the Problem object.
+Adiciona código bruto ao objeto Problem.
 """
 function add_raw_code!(problem::Problem, raw_code, newline=true)
     problem._GETDP_CODE = [add_raw_code(get_code(problem), raw_code, newline)]
@@ -92,7 +92,7 @@ end
 """
     add_comment!(problem::Problem, comment_text, newline=true)
 
-Add a comment to the Problem object.
+Adiciona um comentário ao objeto Problem.
 """
 function add_comment!(problem::Problem, comment_text, newline=true)
     add_raw_code!(problem, comment(comment_text; newline=false), newline)
@@ -101,60 +101,70 @@ end
 """
     make_file!(problem::Problem)
 
-Generate the GetDP code for all objects in the Problem, including only non-empty components.
+Gera o código GetDP para todos os objetos no Problem, incluindo apenas componentes não vazios.
 """
 function make_file!(problem::Problem)
     for attr in problem.objects
+        components = getfield(problem, Symbol(attr))
         if attr == "function_obj"
-            for func in problem.function_obj  # Iterate over all Function objects
-                if !isempty(func.content)  # Check if functions are defined
+            for func in components
+                if !isempty(func.content)
                     push!(problem._GETDP_CODE, code(func))
                 end
             end
         elseif attr == "group"
-            p = getfield(problem, :group)
-            if !isempty(p.content)  # Check if groups are defined
-                push!(problem._GETDP_CODE, code(p))
+            for grp in components
+                if !isempty(grp.content)
+                    push!(problem._GETDP_CODE, code(grp))
+                end
             end
         elseif attr == "constraint"
-            p = getfield(problem, :constraint)
-            if !isempty(p.constraints)  # Check if constraints are defined
-                push!(problem._GETDP_CODE, code(p))
+            for constr in components
+                if !isempty(constr.constraints)
+                    push!(problem._GETDP_CODE, code(constr))
+                end
             end
         elseif attr == "functionspace"
-            p = getfield(problem, :functionspace)
-            if !isempty(p.content)  # Check if items are defined
-                push!(problem._GETDP_CODE, code(p))
+            for fs in components
+                if !isempty(fs.content)
+                    push!(problem._GETDP_CODE, code(fs))
+                end
             end
         elseif attr == "jacobian"
-            p = getfield(problem, :jacobian)
-            if !isempty(p.content)  # Check if jacobians are defined
-                push!(problem._GETDP_CODE, code(p))
+            for jac in components
+                if !isempty(jac.content)
+                    push!(problem._GETDP_CODE, code(jac))
+                end
             end
         elseif attr == "integration"
-            p = getfield(problem, :integration)
-            if !isempty(p.content)  # Check if integrations are defined
-                push!(problem._GETDP_CODE, code(p))
+            for integ in components
+                if !isempty(integ.content)
+                    push!(problem._GETDP_CODE, code(integ))
+                end
             end
         elseif attr == "formulation"
-            p = getfield(problem, :formulation)
-            if !isempty(p.items)  # Check if formulations are defined
-                push!(problem._GETDP_CODE, code(p))
+            for form in components
+                if !isempty(form.items)
+                    push!(problem._GETDP_CODE, code(form))
+                end
             end
         elseif attr == "resolution"
-            p = getfield(problem, :resolution)
-            if !isempty(p.content)  # Check if resolutions are defined
-                push!(problem._GETDP_CODE, code(p))
+            for res in components
+                if !isempty(res.content)
+                    push!(problem._GETDP_CODE, code(res))
+                end
             end
         elseif attr == "postprocessing"
-            p = getfield(problem, :postprocessing)
-            if !isempty(p.content)  # Check if postprocessings are defined
-                push!(problem._GETDP_CODE, code(p))
+            for pp in components
+                if !isempty(pp.content)
+                    push!(problem._GETDP_CODE, code(pp))
+                end
             end
         elseif attr == "postoperation"
-            p = getfield(problem, :postoperation)
-            if !isempty(p.content)  # Check if postoperations are defined
-                push!(problem._GETDP_CODE, code(p))
+            for po in components
+                if !isempty(po.content)
+                    push!(problem._GETDP_CODE, code(po))
+                end
             end
         end
     end
@@ -163,7 +173,7 @@ end
 """
     write_file(problem::Problem)
 
-Write the GetDP code to a file.
+Escreve o código GetDP em um arquivo.
 """
 function write_file(problem::Problem)
     if problem.filename === nothing
@@ -178,12 +188,11 @@ end
 """
     include!(problem::Problem, incl_file)
 
-Include another GetDP file.
+Inclui outro arquivo GetDP.
 """
 function include!(problem::Problem, incl_file)
     push!(problem._GETDP_CODE, "\nInclude \"$(incl_file)\";")
 end
-
 
 """
     write_multiple_problems(problems::Vector{Problem}, filename::String)
