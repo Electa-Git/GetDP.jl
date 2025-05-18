@@ -98,11 +98,11 @@ function add_comment!(problem::Problem, comment_text, newline=true)
 end
 
 """
-    make_file!(problem::Problem)
+    make_problem!(problem::Problem)
 
 Generate the GetDP code for all objects in the Problem, including only non-empty components.
 """
-function make_file!(problem::Problem)
+function make_problem!(problem::Problem)
     for attr in problem.objects
         if attr == "function_obj"
             for func in problem.function_obj  # Iterate over all Function objects
