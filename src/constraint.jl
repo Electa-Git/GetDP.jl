@@ -62,13 +62,16 @@ end
 
 Add a case to a ConstraintItem with specified region and parameters.
 """
-function case!(item::ConstraintItem, region; value=nothing, time_function=nothing, comment=nothing)
+function case!(item::ConstraintItem, region; value=nothing, time_function=nothing, condition=nothing, comment=nothing)
     case_dict = Dict{String, Any}("Region" => region)
     if value !== nothing
         case_dict["Value"] = value
     end
     if time_function !== nothing
         case_dict["TimeFunction"] = time_function
+    end
+    if condition !== nothing
+        case_dict["Condition"] = condition
     end
     if comment !== nothing
         case_dict["Comment"] = comment
@@ -176,7 +179,16 @@ function code(constraint::Constraint)
                     line *= "; TimeFunction $(case["TimeFunction"])"
                 end
                 line *= "; }"
-                push!(code_lines, line)
+                
+                # Check for condition and wrap with If statement
+                if haskey(case, "Condition")
+                    condition = case["Condition"]
+                    push!(code_lines, "        If ($(condition))")
+                    push!(code_lines, "  " * line)
+                    push!(code_lines, "        EndIf")
+                else
+                    push!(code_lines, line)
+                end
             end
             push!(code_lines, "      EndFor")
         end
@@ -191,4 +203,4 @@ function code(constraint::Constraint)
     else
         return join(code_lines, "\n")
     end
-end
+    end
