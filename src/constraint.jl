@@ -121,7 +121,7 @@ function code(constraint::Constraint)
     push!(code_lines, "\nConstraint{")
 
     for item in constraint.constraints
-        # Handle raw code items (skip for simplicity)
+        # Handle raw code items
         if item.name == "RawCode" && length(item.cases) == 1 && haskey(item.cases[1], "Raw")
             push!(code_lines, "  " * item.cases[1]["Raw"])
             continue
@@ -141,7 +141,7 @@ function code(constraint::Constraint)
         pre_loop_cases = loop_start_idx === nothing ? item.cases : item.cases[1:loop_start_idx-1]
         loop_cases = loop_start_idx === nothing ? Dict{String, Any}[] : item.cases[loop_start_idx+1:end]
 
-        # Pre-loop cases (unchanged)
+        # Pre-loop cases
         for case in pre_loop_cases
             if haskey(case, "Comment") && case["Comment"] !== nothing
                 push!(code_lines, "      " * comment(case["Comment"], newline=false))
@@ -160,7 +160,7 @@ function code(constraint::Constraint)
             push!(code_lines, line)
         end
 
-        # Loop cases with conditional logic
+        # Loop cases
         if item.for_loop !== nothing
             index, range = item.for_loop
             push!(code_lines, "      For $(index) In {$(range)}")
