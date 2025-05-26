@@ -62,13 +62,16 @@ end
 
 Add a case to a ConstraintItem with specified region and parameters.
 """
-function case!(item::ConstraintItem, region; value=nothing, time_function=nothing, comment=nothing)
+function case!(item::ConstraintItem, region; value=nothing, time_function=nothing, condition=nothing, comment=nothing)
     case_dict = Dict{String, Any}("Region" => region)
     if value !== nothing
         case_dict["Value"] = value
     end
     if time_function !== nothing
         case_dict["TimeFunction"] = time_function
+    end
+    if condition !== nothing
+        case_dict["Condition"] = condition
     end
     if comment !== nothing
         case_dict["Comment"] = comment
@@ -118,7 +121,7 @@ function code(constraint::Constraint)
     push!(code_lines, "\nConstraint{")
 
     for item in constraint.constraints
-        # Handle raw code items
+        # Handle raw code items (skip for simplicity)
         if item.name == "RawCode" && length(item.cases) == 1 && haskey(item.cases[1], "Raw")
             push!(code_lines, "  " * item.cases[1]["Raw"])
             continue
@@ -138,7 +141,7 @@ function code(constraint::Constraint)
         pre_loop_cases = loop_start_idx === nothing ? item.cases : item.cases[1:loop_start_idx-1]
         loop_cases = loop_start_idx === nothing ? Dict{String, Any}[] : item.cases[loop_start_idx+1:end]
 
-        # Pre-loop cases
+        # Pre-loop cases (unchanged)
         for case in pre_loop_cases
             if haskey(case, "Comment") && case["Comment"] !== nothing
                 push!(code_lines, "      " * comment(case["Comment"], newline=false))
@@ -157,7 +160,7 @@ function code(constraint::Constraint)
             push!(code_lines, line)
         end
 
-        # Loop cases
+        # Loop cases with conditional logic
         if item.for_loop !== nothing
             index, range = item.for_loop
             push!(code_lines, "      For $(index) In {$(range)}")
@@ -176,7 +179,16 @@ function code(constraint::Constraint)
                     line *= "; TimeFunction $(case["TimeFunction"])"
                 end
                 line *= "; }"
-                push!(code_lines, line)
+                
+                # Check for condition and wrap with If statement
+                if haskey(case, "Condition")
+                    condition = case["Condition"]
+                    push!(code_lines, "        If ($(condition))")
+                    push!(code_lines, "  " * line)
+                    push!(code_lines, "        EndIf")
+                else
+                    push!(code_lines, line)
+                end
             end
             push!(code_lines, "      EndFor")
         end
@@ -191,4 +203,4 @@ function code(constraint::Constraint)
     else
         return join(code_lines, "\n")
     end
-end
+    end
