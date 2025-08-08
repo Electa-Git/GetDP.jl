@@ -1,28 +1,9 @@
-# Auto-generated Artifacts.toml for GetDP
-
 [[getdp]]
 arch = "x86_64"
+git-tree-sha1 = "f378024c6afdec0cf169a3a5d568a5bf8f104681"
+libc = "glibc"
 os = "linux"
-lazy = true
 
     [[getdp.download]]
-    url = "https://getdp.info/bin/Linux/getdp-3.5.0-Linux64c.tgz"
     sha256 = "d3c28fa18f20d6147b4c7367d4dd802e9f7ddb58c608688bbb71919dbca8041d"
-
-[[getdp]]
-arch = "x86_64"
-os = "windows"
-lazy = true
-
-    [[getdp.download]]
-    url = "https://getdp.info/bin/Windows/getdp-3.5.0-Windows64c.zip"
-    sha256 = "9b07461586f669ed847bff70a70223d385add769e78c29a6f7bc6c7de5f858c3"
-
-[[getdp]]
-arch = "x86_64"
-os = "macos"
-lazy = true
-
-    [[getdp.download]]
-    url = "https://getdp.info/bin/MacOSX/getdp-3.5.0-MacOSXc.tgz"
-    sha256 = "ba514f4d6009b385ff27f6083f2843ff11a4cb1f3a829fdc0a5f8a2613646077"
+    url = "https://getdp.info/bin/Linux/getdp-3.5.0-Linux64c.tgz"
