@@ -81,15 +81,16 @@ function make_args(glist; sep::String=", ", list_char::Bool=false)
         return string(glist)
     end
 end
-"""
-    get_getdp_exe()
 
-Get the path to the GetDP executable.
-"""
-function get_getdp_exe()
-    macos_getdp_location = "/Applications/Getdp.app/Contents/MacOS/getdp"
-    return isfile(macos_getdp_location) ? macos_getdp_location : "getdp"
-end
+# """
+#     get_getdp_exe()
+
+# Get the path to the GetDP executable.
+# """
+# function get_getdp_exe()
+#     macos_getdp_location = "/Applications/Getdp.app/Contents/MacOS/getdp"
+#     return isfile(macos_getdp_location) ? macos_getdp_location : "getdp"
+# end
 
 """
     array2getdplist(l)
@@ -100,11 +101,7 @@ function array2getdplist(l)
     return "{" * join([string(item) for item in l], ",") * "}"
 end
 
-"""
-    get_getdp_major_version(getdp_exe=get_getdp_exe())
 
-Get the major version of GetDP.
-"""
 function get_getdp_major_version(getdp_exe=get_getdp_exe())
     out = read(`$getdp_exe --version`, String)
     ex = split(strip(out), ".")
@@ -129,3 +126,25 @@ end
 
 #     return str_in
 # end
+
+"""
+    get_getdp_executable()
+
+Get the path to the GetDP executable.
+"""
+function get_getdp_executable()
+    # Environment variable takes precedence
+    env_path = get(ENV, "GETDP_EXECUTABLE", nothing)
+    if env_path !== nothing && isfile(env_path)
+        return env_path
+    end
+
+    # Then system installation
+    system_getdp = Sys.which("getdp")
+    system_getdp !== nothing && return system_getdp
+
+    # Fall back to artifact - Julia picks the right platform automatically
+    @info "System GetDP not found, using artifact version"
+    artifact_dir = artifact"getdp"  # Single name, platform-aware
+    return Sys.iswindows() ? joinpath(artifact_dir, "getdp.exe") : joinpath(artifact_dir, "bin", "getdp")
+end

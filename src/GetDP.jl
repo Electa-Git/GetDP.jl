@@ -1,12 +1,13 @@
 module GetDP
 
 using Dates
+using Pkg.Artifacts
 
 # Include helper functions
 include("helpers.jl")
 
 # Export helper functions
-export add_raw_code, comment, make_args
+export add_raw_code, comment, make_args, get_getdp_executable
 
 # Include base classes
 include("getdp_object.jl")

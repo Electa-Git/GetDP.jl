@@ -6,12 +6,11 @@ version = "0.1.0-DEV"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
-ReferenceTests = "324d217c-45ce-50fc-942e-d289b448e8cf"
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 StringManipulation = "892a3eda-7b42-436c-8928-eab12a02cf0e"
 
 [compat]
-Revise = "3"
+Pkg = "1.11.0"
 StringManipulation = "0.4"
 
 [extras]

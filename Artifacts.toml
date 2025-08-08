@@ -1,0 +1,27 @@
+[[getdp]]
+arch = "x86_64"
+git-tree-sha1 = "f3b4e2d6e878b17d8ad3c3eaff7e523bfcafba27"
+libc = "glibc"
+os = "linux"
+
+[[getdp.download]]
+sha256 = "d3c28fa18f20d6147b4c7367d4dd802e9f7ddb58c608688bbb71919dbca8041d"
+url = "https://getdp.info/bin/Linux/getdp-3.5.0-Linux64c.tgz"
+
+[[getdp]]
+arch = "x86_64"
+git-tree-sha1 = "cd2de9289bc2ebcc2f82d8729a4efa721b431a27"
+os = "windows"
+
+[[getdp.download]]
+sha256 = "9b07461586f669ed847bff70a70223d385add769e78c29a6f7bc6c7de5f858c3"
+url = "https://getdp.info/bin/Windows/getdp-3.5.0-Windows64c.zip"
+
+[[getdp]]
+arch = "x86_64"
+git-tree-sha1 = "64e54a1ac26aec5620bdae3cdf94a20160a8ba7f"
+os = "macos"
+
+[[getdp.download]]
+sha256 = "ba514f4d6009b385ff27f6083f2843ff11a4cb1f3a829fdc0a5f8a2613646077"
+url = "https://getdp.info/bin/MacOSX/getdp-3.5.0-MacOSXc.tgz"
