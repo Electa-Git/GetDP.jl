@@ -143,8 +143,14 @@ function get_getdp_executable()
     system_getdp = Sys.which("getdp")
     system_getdp !== nothing && return system_getdp
 
-    # Fall back to artifact - Julia picks the right platform automatically
-    @info "System GetDP not found, using artifact version"
-    artifact_dir = artifact"getdp"  # Single name, platform-aware
-    return Sys.iswindows() ? joinpath(artifact_dir, "getdp.exe") : joinpath(artifact_dir, "bin", "getdp")
+    # Otherwise use the one in deps
+    deps_dir = joinpath(@__DIR__, "..", "deps", "getdp")
+    exe_name = Sys.iswindows() ? "getdp.exe" : joinpath("bin", "getdp")
+    exe_path = joinpath(deps_dir, exe_name)
+
+    if !isfile(exe_path)
+        error("GetDP not found. Run Pkg.build(\"GetDP\") to install it.")
+    end
+
+    return exe_path
 end
