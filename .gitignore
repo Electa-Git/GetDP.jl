@@ -44,3 +44,4 @@ showcase
 !showcase/*.jl
 papers
 sprint
+Artifacts.toml
