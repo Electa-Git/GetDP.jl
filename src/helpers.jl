@@ -1,85 +1,85 @@
 # Helper functions for GetDP.jl
 
 """
-    add_raw_code(s, raw_code, newline=true)
+	add_raw_code(s, raw_code, newline=true)
 
 Add raw code to a string, optionally with a newline.
 """
-function add_raw_code(s, raw_code, newline=true)
-    nl = newline ? "\n" : ""
-    return s * nl * raw_code
+function add_raw_code(s, raw_code, newline = true)
+	nl = newline ? "\n" : ""
+	return s * nl * raw_code
 end
 
 """
-    comment(s, style="short", newline=false)
+	comment(s, style="short", newline=false)
 
 Add a comment to a string, optionally with a newline.
 """
-function comment(s; style="short", newline=false)
-    nl = newline ? "\n" : ""
+function comment(s; style = "short", newline = false)
+	nl = newline ? "\n" : ""
 
-    if style == "short"
-        if length(s) > 80
-            # Split long comments into multiple lines
-            lines = split_long_string(s)
-            return comment(join(lines, "\n"), style="long", newline=newline)
-        else
-            return nl * "// " * s
-        end
-    elseif style == "long"
-        return nl * "/*  " * s * " */"
-    end
+	if style == "short"
+		if length(s) > 80
+			# Split long comments into multiple lines
+			lines = split_long_string(s)
+			return comment(join(lines, "\n"), style = "long", newline = newline)
+		else
+			return nl * "// " * s
+		end
+	elseif style == "long"
+		return nl * "/*  " * s * " */"
+	end
 end
 
 """
-    split_long_string(s, width=80)
+	split_long_string(s, width=80)
 
 Split a long string into multiple lines.
 """
-function split_long_string(s, width=80)
-    lines = String[]
-    words = split(s)
-    current_line = ""
+function split_long_string(s, width = 80)
+	lines = String[]
+	words = split(s)
+	current_line = ""
 
-    for word in words
-        if length(current_line) + length(word) + 1 <= width
-            if isempty(current_line)
-                current_line = word
-            else
-                current_line *= " " * word
-            end
-        else
-            push!(lines, current_line)
-            current_line = word
-        end
-    end
+	for word in words
+		if length(current_line) + length(word) + 1 <= width
+			if isempty(current_line)
+				current_line = word
+			else
+				current_line *= " " * word
+			end
+		else
+			push!(lines, current_line)
+			current_line = word
+		end
+	end
 
-    if !isempty(current_line)
-        push!(lines, current_line)
-    end
+	if !isempty(current_line)
+		push!(lines, current_line)
+	end
 
-    return lines
+	return lines
 end
 
 """
-    make_args(glist, sep=",", list_char=false)
+	make_args(glist, sep=",", list_char=false)
 
 Format arguments for GetDP code.
 """
 
-function make_args(glist; sep::String=", ", list_char::Bool=false)
-    sep = sep * " "  # Add space after separator if needed
+function make_args(glist; sep::String = ", ", list_char::Bool = false)
+	sep = sep * " "  # Add space after separator if needed
 
-    if isa(glist, Array)
-        if length(glist) == 1
-            return "{" * string(glist[1]) * "}"
-        else
-            formatted = join([string(g) for g in glist], sep)
-            return list_char ? "#{$formatted}" : "{$formatted}"
-        end
-    else
-        return string(glist)
-    end
+	if isa(glist, Array)
+		if length(glist) == 1
+			return "{" * string(glist[1]) * "}"
+		else
+			formatted = join([string(g) for g in glist], sep)
+			return list_char ? "#{$formatted}" : "{$formatted}"
+		end
+	else
+		return string(glist)
+	end
 end
 
 # """
@@ -93,19 +93,19 @@ end
 # end
 
 """
-    array2getdplist(l)
+	array2getdplist(l)
 
 Convert a Julia array to a GetDP list.
 """
 function array2getdplist(l)
-    return "{" * join([string(item) for item in l], ",") * "}"
+	return "{" * join([string(item) for item in l], ",") * "}"
 end
 
 
-function get_getdp_major_version(getdp_exe=get_getdp_exe())
-    out = read(`$getdp_exe --version`, String)
-    ex = split(strip(out), ".")
-    return parse(Int, ex[1])
+function get_getdp_major_version(getdp_exe = get_getdp_exe())
+	out = read(`$getdp_exe --version`, String)
+	ex = split(strip(out), ".")
+	return parse(Int, ex[1])
 end
 
 # """
@@ -128,29 +128,29 @@ end
 # end
 
 """
-    get_getdp_executable()
+	get_getdp_executable()
 
 Get the path to the GetDP executable.
 """
 function get_getdp_executable()
-    # Environment variable takes precedence
-    env_path = get(ENV, "GETDP_EXECUTABLE", nothing)
-    if env_path !== nothing && isfile(env_path)
-        return env_path
-    end
+	# Environment variable takes precedence
+	env_path = get(ENV, "GETDP_EXECUTABLE", nothing)
+	if env_path !== nothing && isfile(env_path)
+		return env_path
+	end
 
-    # Then system installation
-    system_getdp = Sys.which("getdp")
-    system_getdp !== nothing && return system_getdp
+	# Then system installation
+	system_getdp = Sys.which("getdp")
+	system_getdp !== nothing && return system_getdp
 
-    # Otherwise use the one in deps
-    deps_dir = joinpath(@__DIR__, "..", "deps", "getdp")
-    exe_name = Sys.iswindows() ? "getdp.exe" : joinpath("bin", "getdp")
-    exe_path = joinpath(deps_dir, exe_name)
+	# Otherwise use the one in deps
+	deps_dir = joinpath(@__DIR__, "..", "deps", "getdp")
+	exe_name = Sys.iswindows() ? "getdp.exe" : joinpath("bin", "getdp")
+	exe_path = joinpath(deps_dir, exe_name)
 
-    if !isfile(exe_path)
-        error("GetDP not found. Run Pkg.build(\"GetDP\") to install it.")
-    end
+	if !isfile(exe_path)
+		Base.error("GetDP not found. Run Pkg.build(\"GetDP\") to install it.")
+	end
 
-    return exe_path
+	return exe_path
 end
