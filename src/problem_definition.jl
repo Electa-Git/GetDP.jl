@@ -193,7 +193,7 @@ end
 # """
 # function write_multiple_problems(problems::Vector{Problem}, filename::String)
 #     if isempty(problems)
-#         error("No problems to write.")
+#         Base.error("No problems to write.")
 #     end
 
 #     # Define the version comment once, assuming GetDP.VERSION is accessible
