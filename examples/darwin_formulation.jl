@@ -214,7 +214,7 @@ add_operation!(op2, "Print[ Zs[DomainC_Mag], OnRegion Inds, Format Table,\n    S
 problem.postoperation = postoperation
 
 # Generate and write the .pro file
-make_file!(problem)
+make_problem!(problem)
 
 # Write the code to a file
 problem.filename = "darwin_formulation.pro"

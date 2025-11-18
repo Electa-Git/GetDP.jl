@@ -431,7 +431,7 @@ case!(current, "Ind_3", value="I", time_function="F_Cos_wt_p[]{2*Pi*Freq, Pc}")
 problem.constraint = constraint
 
 # Generate and write the .pro file
-make_file!(problem)
+make_problem!(problem)
 
 # Add Macro, Include, and conditional Include statements
 add_raw_code!(

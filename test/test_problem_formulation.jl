@@ -135,7 +135,7 @@ include("../test/normalized.jl")
     problem.postoperation = postoperation
 
     # Generate and write the .pro file
-    make_file!(problem)
+    make_problem!(problem)
 
 
     generated_code = join(problem._GETDP_CODE[2:end])

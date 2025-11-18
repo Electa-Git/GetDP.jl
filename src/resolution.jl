@@ -9,12 +9,12 @@ A system item in a resolution.
 mutable struct SystemItem
     name::String
     formulation::String
-    Type::String
-    Frequency::String
+    Type::Union{String,Nothing}
+    Frequency::Union{String,Nothing}
     comment::Union{String,Nothing}
     kwargs::Dict
 
-    function SystemItem(name, formulation; Type, Frequency, comment=nothing, kwargs...)
+    function SystemItem(name, formulation; Type=nothing, Frequency=nothing, comment=nothing, kwargs...)
         new(name, formulation, Type, Frequency, comment, Dict(kwargs))
     end
 end
@@ -83,12 +83,34 @@ end
 
 Add a resolution with system and operation to the Resolution object.
 """
-function add!(resolution::Resolution, id, system_name; NameOfFormulation=nothing, Type, Frequency, Operation, comment=nothing, kwargs...)
+function add!(resolution::Resolution, id::String, system_name::String; NameOfFormulation=nothing, Type, Frequency, Operation, comment=nothing, kwargs...)
+    @warn "In future versions this function will be deprecated, causing breaking changes. Use a vector of SystemItem instead"
     # Use id as resolution name, NameOfFormulation for system formulation
     resolution.name = id
     formulation = NameOfFormulation !== nothing ? NameOfFormulation : id
     system = SystemItem(system_name, formulation; Type=Type, Frequency=Frequency, comment=comment, kwargs...)
     push!(resolution.systems, system)
+
+    # Add operations to Operation
+    for op in Operation
+        add_operation!(resolution.operation, op)
+    end
+
+    resolution.content = code(resolution)
+end
+"""
+    add!(resolution::Resolution, id::String, systems::Vector{SystemItem}; Operation::Vector{String})
+
+Add a resolution with one or more systems and an operation to the Resolution object.
+"""
+function add!(resolution::Resolution, id::String, systems::Vector{SystemItem}; Operation::Vector{String})
+    # Use id as resolution name
+    resolution.name = id
+
+    # Add all provided system items
+    for system in systems
+        push!(resolution.systems, system)
+    end
 
     # Add operations to Operation
     for op in Operation

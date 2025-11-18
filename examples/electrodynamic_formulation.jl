@@ -139,7 +139,7 @@ add_operation!(op2, "Echo[Str[\"View[PostProcessing.NbViews-1].Type = 4;\",\n   
 problem.postoperation = postoperation
 
 # Generate and write the .pro file
-make_file!(problem)
+make_problem!(problem)
 
 # Write the code to a file
 problem.filename = "electrodynamic_formulation_byjlgetdp.pro"
