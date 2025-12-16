@@ -169,6 +169,9 @@ function write_file(problem::Problem)
         problem.filename = tempname()
     end
 
+    # Remove file if it exists to ensure a new file is created
+    isfile(problem.filename) && rm(problem.filename)
+
     open(problem.filename, "w") do f
         write(f, get_code(problem))
     end
