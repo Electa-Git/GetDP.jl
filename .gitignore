@@ -45,3 +45,4 @@ showcase
 papers
 sprint
 !deps/*.jl
+*.prompt.md
